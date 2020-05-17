@@ -25,7 +25,7 @@ Using Docker Compose the monitoring stack was created.
 
 #docker-compose up 
  
-Will bring the containers to running. the influx DB folder will be created in the same path.
+Will bring the containers to running. Influx DB folder will be created in the current path of script execution.
 
 Since the container runs in host network the port 3000 should not be used byu any other processes.
 
