@@ -1,5 +1,5 @@
 Chordx Assignment
-
+-----------------
 Requirement
 
 1. Bandwidth/Latency Simulator
@@ -16,6 +16,8 @@ To build a docker compose file which will include Grafana image which will
 show real-time Latency.
 
 
+Implementations Details
+-----------------------
 
 As per the above requirement latency.sh file was created.
 
