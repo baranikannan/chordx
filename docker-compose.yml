@@ -1,0 +1,42 @@
+version: '3.3'
+
+services:
+  # Define a Telegraf service
+  telegraf:
+    image: telegraf
+    restart: always
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/rootfs/sys:ro
+      - /proc:/rootfs/proc:ro
+      - /etc:/rootfs/etc:ro
+    network_mode: host
+    ports:
+      - "8092:8092/udp"
+      - "8094:8094"
+      - "8125:8125/udp"
+    environment:
+      HOST_PROC: /rootfs/proc
+      HOST_SYS: /rootfs/sys
+      HOST_ETC: /rootfs/etc
+  # Define an InfluxDB service
+  influxdb:
+    image: influxdb
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    user: root
+    env_file:
+      - 'env.grafana'
+    volumes:
+      - ./grafana/etc/:/etc/grafana
+      - ./grafana/data/:/var/lib/grafana
+    links:
+      - influxdb
+
