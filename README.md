@@ -20,6 +20,11 @@ show real-time Latency.
 As per the above requirement latency.sh file was created.
 
 Using Docker Compose the monitoring stack was created. 
+
+#docker-compose up 
+ 
+Will bring the containers to running. the influx DB folder will be created in the same path.
+
 Since the container runs in host network the port 3000 should not be used byu any other processes.
 Grafana URL would be http://<host IP>:3000
 Initial username/password is admin/admin.
