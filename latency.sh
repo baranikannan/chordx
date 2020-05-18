@@ -14,13 +14,13 @@ if ! [ -x "$(command -v tc)" ]; then
   echo 'Error: tc command is not present, please install iproute' >&2
   exit 1
 fi
-pri=`route | grep '^default' | grep -o '[^ ]*$'`
+pri=$(route | grep '^default' | grep -o '[^ ]*$')
 
-echo $pri "is primary interface"
+echo "$pri" "is primary interface"
 
-echo "Existing settings of "$pri
+echo "Existing settings of $pri"
 echo 
-tc qdisc show dev $pri
+tc qdisc show dev "$pri"
 echo 
 echo 
 
@@ -43,23 +43,23 @@ do
     case $opt in
         "Low 100ms Delays")
             echo "you chose choice 100ms"
-            tc qdisc del dev $pri root > /dev/null 2>&1
-            tc qdisc add dev $pri root netem delay 100ms
-            tc qdisc show dev $pri
+            tc qdisc del dev "$pri" root > /dev/null 2>&1
+            tc qdisc add dev "$pri" root netem delay 100ms
+            tc qdisc show dev "$pri"
             exit
             ;;
         "Medium 500ms Delays")
             echo "you chose choice 500ms"
-            tc qdisc del dev $pri root > /dev/null 2>&1
-            tc qdisc add dev $pri root netem delay 500ms
-            tc qdisc show dev $pri
+            tc qdisc del dev "$pri" root > /dev/null 2>&1
+            tc qdisc add dev "$pri" root netem delay 500ms
+            tc qdisc show dev "$pri"
             exit
             ;;
         "High 1000ms Delays")
             echo "you chose choice 1000ms"
-            tc qdisc del dev $pri root > /dev/null 2>&1
-            tc qdisc add dev $pri root netem delay 1000ms
-            tc qdisc show dev $pri
+            tc qdisc del dev "$pri" root > /dev/null 2>&1
+            tc qdisc add dev "$pri" root netem delay 1000ms
+            tc qdisc show dev "$pri"
             exit
             ;;
         "Custom input")
@@ -68,23 +68,24 @@ do
             if ! [[ $choice =~ $re ]] ; then
    				echo "error: Not a number" >&2; exit 1
 			fi
-            tc qdisc del dev $pri root > /dev/null 2>&1
-            tc qdisc add dev $pri root netem delay $choice"ms"
-            tc qdisc show dev $pri
+            tc qdisc del dev "$pri" root > /dev/null 2>&1
+            tc qdisc add dev "$pri" root netem delay "$choice""ms"
+            tc qdisc show dev "$pri"
             exit
             ;;
         "Clear all Rules")
             echo "Cleared existing rule for delay"
-            tc qdisc del dev $pri root > /dev/null 2>&1
-            tc qdisc show dev $pri
+            tc qdisc del dev "$pri" root > /dev/null 2>&1
+            tc qdisc show dev "$pri"
             exit
             ;;
         "Quit")
         	echo "No Changes made"
-        	tc qdisc show dev $pri
+        	tc qdisc show dev "$pri"
             break
             ;;
         *) echo "invalid option $REPLY";;
     esac
 done
+
 
